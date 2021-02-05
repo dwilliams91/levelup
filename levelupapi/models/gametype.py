@@ -2,5 +2,5 @@ from django.db import models
 
 class GameType(models.Model):
 
-    Label = models.Charfield(max_length=75)
+    Label = models.CharField(max_length=50)
     
