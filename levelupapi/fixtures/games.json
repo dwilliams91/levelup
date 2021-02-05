@@ -1,0 +1,13 @@
+[
+    {
+        "model": "levelupapi.games",
+        "pk": 1,
+        "fields": {
+            "title": "Settlers of Catan",
+            "description": "Collect resource and built your settlements",
+            "number_of_players":4,
+            "gamer_id":1,
+            "gametype":1
+        }
+    }
+]
