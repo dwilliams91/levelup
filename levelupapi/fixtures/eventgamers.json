@@ -4,15 +4,7 @@
         "pk": 1,
         "fields": {
             "game_id": 1,
-            "gamer_id": 1
-        }
-    },
-    {
-        "model": "levelupapi.eventgamers",
-        "pk": 2,
-        "fields": {
-            "game_id": 2,
-            "gamer_id": 1
+            "event_id": 1
         }
     }
 ]

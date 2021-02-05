@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
             name='EventGamers',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('game', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='levelupapi.games')),
+                ('event', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='levelupapi.games')),
                 ('gamer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='levelupapi.gamer')),
             ],
         ),

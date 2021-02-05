@@ -1,0 +1,13 @@
+[
+    {
+        "model": "levelupapi.event",
+        "pk": 1,
+        "fields": {
+            "scheduler":1,
+            "game":1,
+            "event_time": "2020-08-28T14:51:39.989Z",
+            "location": "my house"
+            
+        }
+    }
+]
