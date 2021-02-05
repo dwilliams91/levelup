@@ -9,5 +9,16 @@
             "gamer_id":1,
             "gametype":1
         }
+    },
+    {
+        "model": "levelupapi.games",
+        "pk": 2,
+        "fields": {
+            "title": "Pandemic",
+            "description": "stop a global pandemic",
+            "number_of_players":4,
+            "gamer_id":1,
+            "gametype":1
+        }
     }
 ]
