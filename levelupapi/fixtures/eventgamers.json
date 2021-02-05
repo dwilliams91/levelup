@@ -3,8 +3,8 @@
         "model": "levelupapi.eventgamers",
         "pk": 1,
         "fields": {
-            "game_id": 1,
-            "event_id": 1
+            "gamer": 1,
+            "event": 1
         }
     }
 ]
