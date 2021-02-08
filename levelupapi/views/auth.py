@@ -14,8 +14,11 @@ def login_user(request):
     Method arguments:
       request -- The full HTTP request object
     '''
+    # print("look here")
+    # print(request)
 
     req_body = json.loads(request.body.decode())
+    # print(req_body)
 
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
