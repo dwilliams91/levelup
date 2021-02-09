@@ -57,13 +57,13 @@ class Events(ViewSet):
         Returns:
             Response -- Empty body with 204 status code
         """
-        organizer = Gamer.objects.get(user=request.auth.user)
+        scheduler = Gamer.objects.get(user=request.auth.user)
 
         event = Event.objects.get(pk=pk)
         event.description = request.data["description"]
         event.date = request.data["date"]
         event.time = request.data["time"]
-        event.organizer = organizer
+        event.scheduler = scheduler
 
         game = Game.objects.get(pk=request.data["gameId"])
         event.game = game
@@ -105,26 +105,18 @@ class Events(ViewSet):
         serializer = EventSerializer(
             events, many=True, context={'request': request})
         return Response(serializer.data)
-        
-class EventSerializer(serializers.ModelSerializer):
-    """JSON serializer for events"""
-    organizer = EventGamerSerializer(many=False)
-    game = GameSerializer(many=False)
 
-    class Meta:
-        model = Event
-        fields = ('id', 'game', 'organizer',
-                  'description', 'date', 'time')
+
 
 class EventUserSerializer(serializers.ModelSerializer):
-    """JSON serializer for event organizer's related Django user"""
+    """JSON serializer for event scheduler's related Django user"""
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
 
 
 class EventGamerSerializer(serializers.ModelSerializer):
-    """JSON serializer for event organizer"""
+    """JSON serializer for event scheduler"""
     user = EventUserSerializer(many=False)
 
     class Meta:
@@ -135,4 +127,14 @@ class GameSerializer(serializers.ModelSerializer):
     """JSON serializer for games"""
     class Meta:
         model = Game
-        fields = ('id', 'title', 'maker', 'number_of_players', 'skill_level')
+        fields = ('id', 'title', 'number_of_players', 'description')
+
+class EventSerializer(serializers.ModelSerializer):
+    """JSON serializer for events"""
+    scheduler = EventGamerSerializer(many=False)
+    game = GameSerializer(many=False)
+
+    class Meta:
+        model = Event
+        fields = ('id', 'game', 'scheduler',
+                   'event_time', 'location')
