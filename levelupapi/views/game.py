@@ -6,7 +6,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from levelupapi.models import GameType, Gamer, Games
+from levelupapi.models import GameType, Gamer, Game
 
 
 class All_Games(ViewSet):
@@ -26,7 +26,7 @@ class All_Games(ViewSet):
         # and set its properties from what was sent in the
         # body of the request from the client.
         game = Game()
-        ggame.title = request.data["title"]
+        game.title = request.data["title"]
         game.number_of_players = request.data["numberOfPlayers"]
         game.description = request.data["description"]
         game.gamer = gamer
@@ -65,7 +65,7 @@ class All_Games(ViewSet):
             #   http://localhost:8000/games/2
             #
             # The `2` at the end of the route becomes `pk`
-            game = Games.objects.get(pk=pk)
+            game = Game.objects.get(pk=pk)
             serializer = GameSerializer(game, context={'request': request})
             return Response(serializer.data)
         except Exception as ex:
@@ -121,7 +121,7 @@ class All_Games(ViewSet):
             Response -- JSON serialized list of games
         """
         # Get all game records from the database
-        games = Games.objects.all()
+        games = Game.objects.all()
 
         # Support filtering games by type
         #    http://localhost:8000/games?type=1
@@ -142,6 +142,6 @@ class GameSerializer(serializers.ModelSerializer):
         serializer type
     """
     class Meta:
-        model = Games
+        model = Game
         fields = ('id', 'gamer', 'gametype', 'title', 'description', 'number_of_players')
         depth = 1

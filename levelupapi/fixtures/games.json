@@ -1,6 +1,6 @@
 [
     {
-        "model": "levelupapi.games",
+        "model": "levelupapi.game",
         "pk": 1,
         "fields": {
             "title": "Settlers of Catan",
@@ -11,7 +11,7 @@
         }
     },
     {
-        "model": "levelupapi.games",
+        "model": "levelupapi.game",
         "pk": 2,
         "fields": {
             "title": "Pandemic",
