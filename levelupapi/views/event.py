@@ -23,10 +23,9 @@ class Events(ViewSet):
         gamer = Gamer.objects.get(user=request.auth.user)
 
         event = Event()
-        event.time = request.data["time"]
-        event.date = request.data["date"]
-        event.description = request.data["description"]
-        event.organizer = gamer
+        event.event_time = request.data["event_time"]
+        event.location = request.data["location"]
+        event.scheduler = gamer
 
         game = Game.objects.get(pk=request.data["gameId"])
         event.game = game
@@ -60,6 +59,7 @@ class Events(ViewSet):
         scheduler = Gamer.objects.get(user=request.auth.user)
 
         event = Event.objects.get(pk=pk)
+        
         event.description = request.data["description"]
         event.date = request.data["date"]
         event.time = request.data["time"]

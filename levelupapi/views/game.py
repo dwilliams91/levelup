@@ -103,7 +103,7 @@ class All_Games(ViewSet):
             Response -- 200, 404, or 500 status code
         """
         try:
-            game = Games.objects.get(pk=pk)
+            game = Game.objects.get(pk=pk)
             game.delete()
 
             return Response({}, status=status.HTTP_204_NO_CONTENT)
