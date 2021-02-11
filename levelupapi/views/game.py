@@ -11,7 +11,6 @@ from levelupapi.models import GameType, Gamer, Game
 
 class All_Games(ViewSet):
     """Level up games"""
-    print("is this hitting?")
     def create(self, request):
         """Handle POST operations
 
@@ -120,6 +119,8 @@ class All_Games(ViewSet):
         Returns:
             Response -- JSON serialized list of games
         """
+        # print("is this hitting?")
+
         # Get all game records from the database
         games = Game.objects.all()
 
