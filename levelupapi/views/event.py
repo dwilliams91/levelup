@@ -95,12 +95,24 @@ class Events(ViewSet):
         Returns:
             Response -- JSON serialized list of events
         """
+        # Get the current authenticated user
+        gamer = Gamer.objects.get(user=request.auth.user)
         events = Event.objects.all()
+
+        # Set the `joined` property on every event
+        for event in events:
+            event.joined = None
+
+            try:
+                EventGamer.objects.get(event=event, gamer=gamer)
+                event.joined = True
+            except EventGamer.DoesNotExist:
+                event.joined = False
 
         # Support filtering events by game
         game = self.request.query_params.get('gameId', None)
         if game is not None:
-            events = events.filter(game__id=game)
+            events = events.filter(game__id=type)
 
         serializer = EventSerializer(
             events, many=True, context={'request': request})
@@ -109,8 +121,9 @@ class Events(ViewSet):
     @action(methods=['post', 'delete'], detail=True)
     def signup(self, request, pk=None):
         """Managing gamers signing up for events"""
-
         # A gamer wants to sign up for an event
+
+
         if request.method == "POST":
             # The pk would be `2` if the URL above was requested
             event = Event.objects.get(pk=pk)
@@ -140,6 +153,7 @@ class Events(ViewSet):
         elif request.method == "DELETE":
             # Handle the case if the client specifies a game
             # that doesn't exist
+
             try:
                 event = Event.objects.get(pk=pk)
             except Event.DoesNotExist:
@@ -151,14 +165,17 @@ class Events(ViewSet):
             # Get the authenticated user
             gamer = Gamer.objects.get(user=request.auth.user)
 
+
             try:
                 # Try to delete the signup
                 registration = EventGamer.objects.get(
                     event=event, gamer=gamer)
                 registration.delete()
+                
                 return Response(None, status=status.HTTP_204_NO_CONTENT)
 
             except EventGamer.DoesNotExist:
+
                 return Response(
                     {'message': 'Not currently registered for event.'},
                     status=status.HTTP_404_NOT_FOUND
@@ -169,6 +186,7 @@ class Events(ViewSet):
         # the method is not supported
         return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+   
 
 class EventUserSerializer(serializers.ModelSerializer):
     """JSON serializer for event scheduler's related Django user"""
@@ -199,5 +217,5 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('id', 'game', 'scheduler',
-                   'event_time', 'location')
+                   'event_time', 'location', 'joined')
         # depth=1
