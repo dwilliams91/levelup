@@ -118,7 +118,7 @@ class Events(ViewSet):
             events, many=True, context={'request': request})
         return Response(serializer.data)
 
-    @action(methods=['post', 'delete'], detail=True)
+    @action(methods=[ 'post', 'delete'], detail=True)
     def signup(self, request, pk=None):
         """Managing gamers signing up for events"""
         # A gamer wants to sign up for an event
@@ -171,7 +171,7 @@ class Events(ViewSet):
                 registration = EventGamer.objects.get(
                     event=event, gamer=gamer)
                 registration.delete()
-                
+
                 return Response(None, status=status.HTTP_204_NO_CONTENT)
 
             except EventGamer.DoesNotExist:
