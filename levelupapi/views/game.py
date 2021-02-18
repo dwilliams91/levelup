@@ -123,7 +123,7 @@ class All_Games(ViewSet):
 
         # Get all game records from the database
         games = Game.objects.all()
-
+        # adding a change to get the green box
         # Support filtering games by type
         #    http://localhost:8000/games?type=1
         #
