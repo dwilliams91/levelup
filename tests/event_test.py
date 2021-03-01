@@ -1,8 +1,7 @@
 import json
 from rest_framework import status
 from rest_framework.test import APITestCase
-from levelupapi.models import GameType, Game
-
+from levelupapi.models import Event
 
 class GameTests(APITestCase):
     def setUp(self):
@@ -30,7 +29,7 @@ class GameTests(APITestCase):
         self.token = json_response["token"]
 
         # Assert that a user was created
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # SEED DATABASE WITH ONE GAME TYPE
         # This is needed because the API does not expose a /gametypes
