@@ -1,9 +1,9 @@
 import json
 from rest_framework import status
 from rest_framework.test import APITestCase
-from levelupapi.models import Event
+from levelupapi.models import Event, Game, GameType
 
-class GameTests(APITestCase):
+class EventTest(APITestCase):
     def setUp(self):
         """
         Create a new account and create sample category
@@ -29,7 +29,7 @@ class GameTests(APITestCase):
         self.token = json_response["token"]
 
         # Assert that a user was created
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # SEED DATABASE WITH ONE GAME TYPE
         # This is needed because the API does not expose a /gametypes
@@ -39,43 +39,6 @@ class GameTests(APITestCase):
         gametype.save()
 
 
-    def test_create_game(self):
-        """
-        Ensure we can create a new game.
-        """
-        # DEFINE GAME PROPERTIES
-        url = "/games"
-        data = {
-            "gameTypeId": 1,
-            "description": "find the murder",
-            "title": "Clue",
-            "numberOfPlayers": 6,
-        }
-
-        # Make sure request is authenticated
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
-
-        # Initiate request and store response
-        response = self.client.post(url, data, format='json')
-
-        # Parse the JSON in the response body
-        json_response = json.loads(response.content)
-
-        # Assert that the game was created
-        # self.assertEqual(response.status_code, status.HTTP_200_ok)
-
-        # Assert that the properties on the created resource are correct
-        self.assertEqual(json_response["title"], "Clue")
-        self.assertEqual(json_response["description"], "find the murder")
-        self.assertEqual(json_response["number_of_players"], 6)
-        self.assertEqual(json_response["gametype"]["id"], 1)
-        
-    def test_get_game(self):
-        """
-        Ensure we can get an existing game.
-        """
-
-        # Seed the database with a game
         game = Game()
         game.gametype_id = 1
         game.title = "Monopoly"
@@ -84,20 +47,23 @@ class GameTests(APITestCase):
         game.gamer_id = 1
 
         game.save()
+        
 
-        # Make sure request is authenticated
+    def test_get_event(self):
+        
+
+
+        event=Event()
+        event.game_id=1
+        event.scheduler_id=1
+        event.location="The moon"
+        event.event_time="2021-02-05 17:00:00"
+        event.save()
+
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
 
-        # Initiate request and store response
-        response = self.client.get(f"/games/{game.id}")
-
-        # Parse the JSON in the response body
+        response = self.client.get(f"/events/{event.id}")
         json_response = json.loads(response.content)
+        self.assertEqual(json_response["location"], "The moon")
 
-        # Assert that the game was retrieved
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        # Assert that the values are correct
-        self.assertEqual(json_response["title"], "Monopoly")
-        self.assertEqual(json_response["description"], "win capitalism")
-        self.assertEqual(json_response["number_of_players"], 4)
+    
