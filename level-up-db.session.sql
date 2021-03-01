@@ -1,0 +1,1 @@
+SELECT * From levelupapi_game
