@@ -134,8 +134,7 @@ class Events(ViewSet):
 
             try:
                 # Determine if the user is already signed up
-                registration = EventGamer.objects.get(
-                    event=event, gamer=gamer)
+                registration = EventGamer.objects.get(event=event, gamer=gamer)
                 return Response(
                     {'message': 'Gamer already signed up this event.'},
                     status=status.HTTP_422_UNPROCESSABLE_ENTITY
